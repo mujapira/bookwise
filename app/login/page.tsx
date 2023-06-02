@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from 'next/link';
-import Bookwise from "../public/bookwiseLogin.png";
-import Github from "../public/githubIcon.png";
-import Google from "../public/googleIcon.png";
+import Bookwise from "../../public/bookwiseLogin.png";
+import Github from "../../public/githubIcon.png";
+import Google from "../../public/googleIcon.png";
 
 import { RocketLaunch } from "@phosphor-icons/react";
 
@@ -40,7 +40,7 @@ export default function Page() {
               <Image src={Github} width="32" height="32" alt="Github Logo" />
               <span className="font-bold text-base text-slate-200">Entrar com Github</span>
             </button>
-            <Link href="/dashboard"
+            <Link href="/home"
               className="flex gap-5 px-6 py-5 rounded-lg bg-slate-800 items-center justify-start w-full hover:bg-slate-700 ease-in-out duration-300"
               aria-label="Acessar como visitante"
             >
