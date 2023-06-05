@@ -3,6 +3,7 @@ import Mask from "@/components/Mask";
 import Navbar from "@/components/Navbar";
 import {useEffect, useState} from "react";
 import {createContext} from "react";
+import {useSession} from "next-auth/react";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -27,6 +28,10 @@ export default function DashboardLayout({children}: DashboardLayoutProps) {
     const [activeNavItem, setActiveNavItem] = useState("");
     const [isNavActive, setIsNavActive] = useState(false);
     const [isAsideActive, setIsAsideActive] = useState(false);
+
+    const {data: session} = useSession();
+    console.log('oi')
+    console.log(session?.user?.name)
 
     function toggleAside() {
         setIsAsideActive(!isAsideActive);
@@ -59,7 +64,7 @@ export default function DashboardLayout({children}: DashboardLayoutProps) {
                     toggleAside,
                     toggleNav,
                     activeNavItem,
-                    setActiveNavItem
+                    setActiveNavItem,
                 }}>
                 {children}
             </SidebarContext.Provider>

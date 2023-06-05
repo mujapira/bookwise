@@ -2,18 +2,13 @@
 
 import {useContext} from "react";
 import {SidebarContext} from "../layout";
-import {
-    Binoculars,
-    ChartLineUp,
-    List,
-    MagnifyingGlass,
-    Popcorn,
-} from "@phosphor-icons/react";
+import {Binoculars, List, MagnifyingGlass} from "@phosphor-icons/react";
 import PopularBook from "@/components/Dashboard/PopularBook";
 
 export default function Page() {
-    const {toggleNav, isNavActive, setActiveNavItem} = useContext(SidebarContext);
-    setActiveNavItem("Explorar")
+    const {toggleNav, isNavActive, setActiveNavItem} =
+        useContext(SidebarContext);
+    setActiveNavItem("Explorar");
 
     const categories = [
         "Tudo",
@@ -28,7 +23,7 @@ export default function Page() {
 
     return (
         <>
-            <main className="flex flex-col w-full h-full gap-12 pl-0 mx-auto max-w-7xl 2xl:max-w-screen-xl 2xl:pl-8 2xl:mr-0">
+            <main className="flex flex-col w-full h-full gap-12 pl-0 mx-auto max-w-7xl 2xl:max-w-screen-xl 2xl:pl-72">
                 <div className="flex gap-3 font-bold text-2xl align-middle justify-between mt-[20px] mb-[20px] 2xl:mt-[62px]">
                     <div className="flex flex-row items-center gap-3 align-middle 2xl:flex-row-reverse ">
                         <button
@@ -48,7 +43,7 @@ export default function Page() {
                     <div className="relative flex items-center justify-center w-full max-w-sm text-base">
                         <input
                             autoComplete="off"
-                            type="text"
+                            type="search"
                             id="search"
                             placeholder="Buscar livro ou autor"
                             className="w-full py-3 pl-5 bg-transparent border-indigo-900 rounded-md border-[1px]
@@ -91,18 +86,18 @@ export default function Page() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                    <PopularBook read/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
-                    <PopularBook/>
+                    <PopularBook read />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
+                    <PopularBook />
                 </div>
             </main>
         </>

@@ -7,8 +7,14 @@ import {useContext} from "react";
 import {SidebarContext} from "../layout";
 
 export default function Page() {
-    const {isAsideActive, toggleAside, toggleNav, isNavActive, setActiveNavItem} = useContext(SidebarContext);
-    setActiveNavItem("Início")
+    const {
+        isAsideActive,
+        toggleAside,
+        toggleNav,
+        isNavActive,
+        setActiveNavItem,
+    } = useContext(SidebarContext);
+    setActiveNavItem("Início");
     return (
         <>
             <main className="w-full mx-auto max-w-7xl 2xl:max-w-2xl">
