@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Github from "../../public/githubIcon.png";
 import Google from "../../public/googleIcon.png";
-
 import {signIn} from "next-auth/react";
 
 import {
@@ -14,9 +13,8 @@ import {
     SignIn,
 } from "@phosphor-icons/react";
 import {useState} from "react";
-import {api} from "../../libs/axios";
 import axios from "axios";
-import {sign} from "crypto";
+import {toast} from "react-hot-toast";
 
 export default function Page() {
     const [registerEmail, setRegisterEmail] = useState("");
@@ -46,7 +44,10 @@ export default function Page() {
             password: registerPassword,
             name: name,
         };
-        axios.post("/api/register", data);
+        axios
+            .post("/api/register", data)
+            .then(() => toast.success("Usuário cadastrado com sucesso"))
+            .catch(() => toast.error("Erro ao cadastrar usuário"));
     };
 
     const [signInEmail, setSignInEmail] = useState("");
@@ -70,15 +71,24 @@ export default function Page() {
             email: signInEmail,
             password: signInPassword,
         };
-        axios.post("/api/login", data);
+        await signIn("credentials", {...data, redirect: false}).then(
+            (callback) => {
+                if (callback?.error) {
+                    toast.error(callback.error);
+                }
+                if (callback?.ok && !callback?.error) {
+                    toast.success("Usuário logado com sucesso");
+                }
+            }
+        );
     };
 
     const [isPasswordVisible, setIsPasswordVisibility] = useState(false);
-    
+
     const [isRegisterFormActive, setIsRegisterFormActive] = useState(false);
     const [isSignFormActive, setIsSignInFormActive] = useState(true);
 
-    function toggleForms(){
+    function toggleForms() {
         setIsRegisterFormActive(!isRegisterFormActive);
         setIsSignInFormActive(!isSignFormActive);
     }
@@ -187,6 +197,9 @@ export default function Page() {
                                     className="w-full px-3 py-2 bg-transparent border border-indigo-500 rounded-lg"
                                     placeholder="E-mail"
                                     required
+                                    disabled={
+                                        isRegisterFormActive ? true : false
+                                    }
                                 />
                             </div>
 
@@ -205,6 +218,9 @@ export default function Page() {
                                         className="w-full px-3 py-2 bg-transparent border border-indigo-500 rounded-lg"
                                         placeholder="Senha secreta"
                                         required
+                                        disabled={
+                                            isRegisterFormActive ? true : false
+                                        }
                                     />
                                     <button
                                         type="button"
@@ -270,6 +286,9 @@ export default function Page() {
                                     className="w-full px-3 py-2 bg-transparent border border-indigo-500 rounded-lg"
                                     placeholder="Seu nome"
                                     required
+                                    disabled={
+                                        isRegisterFormActive ? false : true
+                                    }
                                 />
                             </div>
                             <div className="w-full">
@@ -282,6 +301,9 @@ export default function Page() {
                                     className="w-full px-3 py-2 bg-transparent border border-indigo-500 rounded-lg"
                                     placeholder="Seu melhor e-mail"
                                     required
+                                    disabled={
+                                        isRegisterFormActive ? false : true
+                                    }
                                 />
                             </div>
 
@@ -300,6 +322,9 @@ export default function Page() {
                                         className="w-full px-3 py-2 bg-transparent border border-indigo-500 rounded-lg"
                                         placeholder="Senha segura"
                                         required
+                                        disabled={
+                                            isRegisterFormActive ? false : true
+                                        }
                                     />
                                     <button
                                         type="button"

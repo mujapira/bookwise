@@ -1,6 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import NextAuth, {NextAuthOptions} from "next-auth";
 
+import crypto from "crypto";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import TwitterProvider from "next-auth/providers/twitter";
@@ -27,16 +28,43 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "credentials",
             credentials: {
-                email: {label: "Email",  type: "text",  placeholder: "maurilio@gmail.com"},
-                username: {label: "Username",  type: "text",  placeholder: "Maurílio"},
+                email: {
+                    label: "Email",
+                    type: "text",
+                    placeholder: "maurilio@gmail.com",
+                },
+                username: {
+                    label: "Username",
+                    type: "text",
+                    placeholder: "Maurílio",
+                },
                 password: {label: "Password", type: "password"},
             },
             async authorize(credentials) {
-                const user = {
-                    id: "1",
-                    name: "Maurílio",
-                    email: "maurilio@gmail.com",
-                };
+                if (!credentials?.email || !credentials?.password) {
+                    throw new Error("Por favor, digite um e-mail e uma senha");
+                }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email,
+                    },
+                });
+
+                if (!user || !user.hashedPassword) {
+                    throw new Error("Algo deu errado, verifique o email e a senha");
+                }
+
+                const hashedPassword = crypto
+                    .createHash("sha256")
+                    .update(credentials.password + 10)
+                    .digest("hex");
+
+                const passwordMatch = hashedPassword === user.hashedPassword;
+
+                if (!passwordMatch) {
+                    throw new Error("Senha e usuário não correspondem");
+                }
                 return user;
             },
         }),
